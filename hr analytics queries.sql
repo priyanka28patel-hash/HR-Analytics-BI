@@ -280,3 +280,149 @@ WHERE avg_salary >
 SELECT AVG(monthlyincome)
 FROM hr_data
 );
+
+
+
+23. Attrition Rate by Overtime Status
+SELECT
+    overtime,
+    COUNT(*) AS total_employees,
+    COUNT(CASE WHEN attrition = 'Yes' THEN 1 END) AS employees_left,
+    ROUND(
+        COUNT(CASE WHEN attrition = 'Yes' THEN 1 END) * 100.0
+        / COUNT(*),
+        2
+    ) AS attrition_rate
+FROM hr_data
+GROUP BY overtime
+ORDER BY attrition_rate DESC;
+
+
+-- 24. Attrition Rate by Job Satisfaction
+SELECT
+    jobsatisfaction,
+    COUNT(*) AS total_employees,
+    COUNT(CASE WHEN attrition = 'Yes' THEN 1 END) AS employees_left,
+    ROUND(
+        COUNT(CASE WHEN attrition = 'Yes' THEN 1 END) * 100.0
+        / COUNT(*),
+        2
+    ) AS attrition_rate
+FROM hr_data
+GROUP BY jobsatisfaction
+ORDER BY jobsatisfaction;
+
+
+-- 25. Attrition Rate by Years at Company
+SELECT
+    CASE
+        WHEN yearsatcompany <= 2 THEN '0-2 Years'
+        WHEN yearsatcompany BETWEEN 3 AND 5 THEN '3-5 Years'
+        WHEN yearsatcompany BETWEEN 6 AND 10 THEN '6-10 Years'
+        ELSE '10+ Years'
+    END AS tenure_group,
+    COUNT(*) AS total_employees,
+    COUNT(CASE WHEN attrition = 'Yes' THEN 1 END) AS employees_left,
+    ROUND(
+        COUNT(CASE WHEN attrition = 'Yes' THEN 1 END) * 100.0
+        / COUNT(*),
+        2
+    ) AS attrition_rate
+FROM hr_data
+GROUP BY tenure_group
+ORDER BY attrition_rate DESC;
+
+
+-- 26. Attrition Rate by Age Group
+SELECT
+    CASE
+        WHEN age < 25 THEN 'Under 25'
+        WHEN age BETWEEN 25 AND 34 THEN '25-34'
+        WHEN age BETWEEN 35 AND 44 THEN '35-44'
+        WHEN age BETWEEN 45 AND 54 THEN '45-54'
+        ELSE '55+'
+    END AS age_group,
+    COUNT(*) AS total_employees,
+    COUNT(CASE WHEN attrition = 'Yes' THEN 1 END) AS employees_left,
+    ROUND(
+        COUNT(CASE WHEN attrition = 'Yes' THEN 1 END) * 100.0
+        / COUNT(*),
+        2
+    ) AS attrition_rate
+FROM hr_data
+GROUP BY age_group
+ORDER BY attrition_rate DESC;
+
+
+-- 27. Attrition Rate by Work-Life Balance
+SELECT
+    worklifebalance,
+    COUNT(*) AS total_employees,
+    COUNT(CASE WHEN attrition = 'Yes' THEN 1 END) AS employees_left,
+    ROUND(
+        COUNT(CASE WHEN attrition = 'Yes' THEN 1 END) * 100.0
+        / COUNT(*),
+        2
+    ) AS attrition_rate
+FROM hr_data
+GROUP BY worklifebalance
+ORDER BY attrition_rate DESC;
+
+
+-- 28. Average Income: Employees Who Left vs Stayed
+SELECT
+    attrition,
+    COUNT(*) AS employee_count,
+    ROUND(AVG(monthlyincome), 2) AS average_monthly_income,
+    ROUND(AVG(yearsatcompany), 2) AS average_years_at_company
+FROM hr_data
+GROUP BY attrition;
+
+
+-- 29. High-Risk Employee Segment
+SELECT
+    jobrole,
+    overtime,
+    COUNT(*) AS employee_count,
+    COUNT(CASE WHEN attrition = 'Yes' THEN 1 END) AS employees_left,
+    ROUND(
+        COUNT(CASE WHEN attrition = 'Yes' THEN 1 END) * 100.0
+        / COUNT(*),
+        2
+    ) AS attrition_rate
+FROM hr_data
+GROUP BY jobrole, overtime
+HAVING COUNT(*) >= 20
+ORDER BY attrition_rate DESC;
+
+
+-- 30. Employees with High Income but Low Job Satisfaction
+SELECT
+    employeenumber,
+    jobrole,
+    department,
+    monthlyincome,
+    jobsatisfaction,
+    yearsatcompany
+FROM hr_data
+WHERE monthlyincome > (
+        SELECT AVG(monthlyincome)
+        FROM hr_data
+    )
+AND jobsatisfaction <= 2
+ORDER BY monthlyincome DESC;
+
+
+-- 31. Overall HR Summary
+SELECT
+    COUNT(*) AS total_employees,
+    COUNT(CASE WHEN attrition = 'Yes' THEN 1 END) AS total_attrition,
+    ROUND(
+        COUNT(CASE WHEN attrition = 'Yes' THEN 1 END) * 100.0
+        / COUNT(*),
+        2
+    ) AS attrition_rate,
+    ROUND(AVG(age), 2) AS average_age,
+    ROUND(AVG(monthlyincome), 2) AS average_monthly_income,
+    ROUND(AVG(yearsatcompany), 2) AS average_tenure
+FROM hr_data;
