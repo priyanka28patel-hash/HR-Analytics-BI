@@ -162,7 +162,6 @@ The complete SQL queries are available in:
 
 ## 📂 Project Structure
 
-```text
 HR-Analytics-BI/
 │
 ├── HR_Analytics_Priyanka.pbix
@@ -170,7 +169,6 @@ HR-Analytics-BI/
 ├── hr analytics queries.sql
 └── README.md
 
---
 
 ## 📁 **Files Description**
 
@@ -185,9 +183,9 @@ SQL table creation and analytical queries.
 
 **README.md**  
 Project documentation.
---
 
-## 🚀 ## 🚀 **Future Enhancements**
+
+## 🚀 **Future Enhancements**
 
 Potential improvements include:
 
@@ -198,25 +196,18 @@ Potential improvements include:
 - **Additional DAX measures**
 - **What-if analysis for HR planning**
 
-## 👩‍💻 **Author**
-**Priyanka Patel**
 
---
+## 👩‍💻 **Author**
+
+**Priyanka Patel**
 
 Data Analyst | Power BI | SQL | Python | Excel
 
 This project demonstrates practical skills in:
 
-Data Cleaning → SQL Analysis → DAX → Data Visualization → Business Insights
+**Data Cleaning → SQL Analysis → DAX → Data Visualization → Business Insights**
 
 
-## ⭐ If you find this project useful, feel free to explore the files and dashboard.
+## ⭐ If you find this project useful
 
-### Then commit it
-
-At the bottom of the GitHub editor:
-
-**Commit message:**
-
-```text
-Updated README for HR Analytics portfolio project
+Feel free to explore the files and dashboard.
